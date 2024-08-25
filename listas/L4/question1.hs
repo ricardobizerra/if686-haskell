@@ -1,3 +1,5 @@
+-- Aluno: Ricardo Bizerra de Lima Filho
+
 import Control.Concurrent
 import Text.Printf
 
