@@ -3,17 +3,17 @@
 import Control.Concurrent
 import Control.Concurrent.STM
 
-type Conta = TVar Integer
+type Conta = TVar Int
 
-saque :: Conta -> Integer -> STM()
+saque :: Conta -> Int -> STM()
 saque conta valor = do
   saldo <- readTVar conta
   writeTVar conta (saldo - valor)
 
-deposito :: Conta -> Integer -> STM()
+deposito :: Conta -> Int -> STM()
 deposito conta valor = saque conta (-valor)
 
-saque2 :: Conta -> Integer -> STM()
+saque2 :: Conta -> Int -> STM()
 saque2 conta valor = do
   saldo <- readTVar conta
   if saldo >= valor
@@ -21,7 +21,8 @@ saque2 conta valor = do
     else return ()
 
 main = do
-  conta <- newTVarIO 100
+  conta <- atomically (newTVar 100)
+
   forkIO $ atomically $ deposito conta 100
   forkIO $ atomically $ saque conta 50
   forkIO $ atomically $ saque2 conta 70
