@@ -2,7 +2,6 @@
 
 import Control.Concurrent
 import Control.Concurrent.STM
-import Text.Printf
 
 type Conta = TVar Integer
 
