@@ -21,9 +21,11 @@ saque2 conta valor = do
     else return ()
 
 main = do
-  conta <- atomically (newTVar 100)
+  conta <- atomically (newTVar 0)
 
-  forkIO $ atomically $ deposito conta 100
-  forkIO $ atomically $ saque conta 50
-  forkIO $ atomically $ saque2 conta 70
-  forkIO $ atomically $ saque2 conta 20
+  atomically $ deposito conta 100
+  atomically $ saque conta 50
+  atomically $ saque2 conta 70
+  
+  saldo <- atomically $ readTVar conta
+  putStrLn (show saldo)
